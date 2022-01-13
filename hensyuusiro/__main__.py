@@ -16,6 +16,7 @@ client = lightbulb.BotApp(token=R_TOKEN, prefix="!")
 
 
 
+
 @client.listen()
 async def voiceevent(event: hikari.VoiceStateUpdateEvent) -> None:
     try:
