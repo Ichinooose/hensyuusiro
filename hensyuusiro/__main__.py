@@ -12,13 +12,14 @@ from lightbulb import *
 from hensyuusiro import *
 
 pretime_dict = {}
-client = lightbulb.BotApp(token="OTI4NjM5MzM0Mzc3MjIyMTQ0.Ydbsxg.kArdlBqwCB20I5IQrmfMzQMSLAY", prefix="!")
+client = lightbulb.BotApp(token=R_TOKEN, prefix="!")
+
 
 
 @client.listen()
 async def voiceevent(event: hikari.VoiceStateUpdateEvent) -> None:
     try:
-        if event.state.channel_id == 928639635171713041 or event.old_state.channel_id == 928639635171713041:
+        if event.state.channel_id == T_VOICE_EDITING_CHANNEL_ID or event.old_state.channel_id == T_VOICE_EDITING_CHANNEL_ID:
             user_id = str(event.state.user_id)
             file = "../hensyuusiro/user/" + user_id + ".yml"
             data = dict(
@@ -76,7 +77,7 @@ async def voiceevent(event: hikari.VoiceStateUpdateEvent) -> None:
                 embed.add_field(name="累計編集時間",
                                 value=str(total_editing_time_hours) + "時" + str(total_editing_time_minutes) + "分" + str(total_editing_time_seconds) + "秒")
 
-                await (await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+                await (await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
     except AttributeError:
         pass
 
@@ -87,7 +88,7 @@ async def voiceevent(event: hikari.VoiceStateUpdateEvent) -> None:
 @lightbulb.implements(lightbulb.PrefixCommand)
 async def video_time_start(ctx: lightbulb.Context) -> None:
     try:
-        if ctx.get_guild().get_voice_state(ctx.user).channel_id == 928639635171713041:
+        if ctx.get_guild().get_voice_state(ctx.user).channel_id == T_VOICE_EDITING_CHANNEL_ID:
 
             print(ctx.options.start)
             print(type(ctx.options.start))
@@ -127,13 +128,13 @@ async def video_time_start(ctx: lightbulb.Context) -> None:
                         with open(file, "w") as filer:
                             filer.write(yaml.dump(data, default_flow_style=False, allow_unicode=True))
 
-                    await (await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+                    await (await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
                 except ValueError:
                     await ctx.respond("おっぱいがいっぱい")
     except AttributeError:
         embed = hikari.Embed(color="b22222")
         embed.add_field(name="実行されませんでした。", value="ボイスチャンネルに接続してから実行してください。")
-        await (await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+        await (await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
 
 
 @client.command()
@@ -142,7 +143,7 @@ async def video_time_start(ctx: lightbulb.Context) -> None:
 @lightbulb.implements(lightbulb.PrefixCommand)
 async def video_time_end(ctx: lightbulb.Context) -> None:
     try:
-        if ctx.get_guild().get_voice_state(ctx.user).channel_id == 928639635171713041:
+        if ctx.get_guild().get_voice_state(ctx.user).channel_id == T_VOICE_EDITING_CHANNEL_ID:
             print(ctx.get_guild().get_voice_state(ctx.user))
             print(ctx.options.end)
             print(type(ctx.options.end))
@@ -191,7 +192,7 @@ async def video_time_end(ctx: lightbulb.Context) -> None:
                             filer.write(yaml.dump(data, default_flow_style=False, allow_unicode=True))
                         embed.add_field(name="動画編集時間",
                                         value=str(dif_hours) + "時" + str(dif_minutes) + "分" + str(dif_seconds) + "秒")
-                        await (await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+                        await (await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
                 except ValueError:
                     await ctx.respond("おっぱいがいっぱい")
     except AttributeError:
@@ -243,7 +244,7 @@ async def video_time_end(ctx: lightbulb.Context) -> None:
                         filer.write(yaml.dump(data, default_flow_style=False, allow_unicode=True))
                     embed.add_field(name="動画編集時間",
                                     value=str(dif_hours) + "時" + str(dif_minutes) + "分" + str(dif_seconds) + "秒")
-                    await (await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+                    await (await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
             except ValueError:
                 await ctx.respond("おっぱいがいっぱい")
 
@@ -269,6 +270,6 @@ async def stats(ctx: lightbulb.Context) -> None:
         embed.add_field(name="累計動画編集時間",
                         value=str(Total_Video_Time_Hours) + "時" + str(Total_Video_Time_Minutes) + "分" + str(
                             Total_Video_Time_Seconds) + "秒")
-        await(await client.rest.fetch_channel(EDITING_CHANNEL_ID)).send(embed=embed)
+        await(await client.rest.fetch_channel(T_EDITING_CHANNEL_ID)).send(embed=embed)
 
 client.run()
