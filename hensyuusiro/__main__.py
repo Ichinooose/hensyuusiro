@@ -12,10 +12,10 @@ from lightbulb import *
 from hensyuusiro import *
 
 pretime_dict = {}
-client = lightbulb.BotApp(token=T_TOKEN, prefix="!")
+client = lightbulb.BotApp(token=R_TOKEN, prefix="!")
 
-CHANNEL_ID = T_EDITING_CHANNEL_ID
-voice_channel_id = T_VOICE_EDITING_CHANNEL_ID
+CHANNEL_ID = R_EDITING_CHANNEL_ID
+voice_channel_id = R_VOICE_EDITING_CHANNEL_ID
 
 
 @client.listen()
